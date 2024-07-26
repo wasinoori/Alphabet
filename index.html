@@ -1,0 +1,288 @@
+<html><head><base href="https://websim.ai/alphabet-learning/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>آموزش الفبا برای اطفال</title>
+  <style>
+    @font-face {
+      font-family: 'Vazir';
+      src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/Vazir-Regular.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+  
+    :root {
+      --primary-color: #FF9800;
+      --secondary-color: #FFC107;
+      --accent-color: #4CAF50;
+      --text-color: #333;
+      --background-color: #FFF3E0;
+    }
+  
+    body {
+      font-family: 'Vazir', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      direction: rtl;
+    }
+  
+    #game-container {
+      width: 90%;
+      max-width: 800px;
+      background-color: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    h1 {
+      font-size: 2.5em;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+  
+    #theme-selector {
+      margin-bottom: 20px;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 2px solid var(--primary-color);
+      background-color: white;
+      color: var(--text-color);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+  
+    #theme-selector:hover {
+      background-color: var(--primary-color);
+      color: white;
+    }
+  
+    #alphabet-display {
+      font-size: 8em;
+      color: var(--primary-color);
+      margin: 20px 0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  
+    #word-display {
+      font-size: 2em;
+      color: var(--text-color);
+      margin: 10px 0;
+    }
+  
+    #image-display {
+      width: 200px;
+      height: 200px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      margin: 20px 0;
+      transition: transform 0.3s ease;
+    }
+  
+    #image-display:hover {
+      transform: scale(1.1);
+    }
+  
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+  
+    .button {
+      background-color: var(--accent-color);
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 10px;
+      cursor: pointer;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+  
+    .button:hover {
+      background-color: #45a049;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+  
+    #progress-bar {
+      width: 80%;
+      height: 20px;
+      background-color: #f0f0f0;
+      border-radius: 10px;
+      margin-top: 20px;
+      overflow: hidden;
+    }
+  
+    #progress {
+      width: 0;
+      height: 100%;
+      background-color: var(--secondary-color);
+      transition: width 0.5s ease;
+    }
+  
+    @media (max-width: 600px) {
+      #game-container {
+        width: 95%;
+        padding: 10px;
+      }
+  
+      h1 {
+        font-size: 2em;
+      }
+  
+      #alphabet-display {
+        font-size: 6em;
+      }
+  
+      #word-display {
+        font-size: 1.5em;
+      }
+  
+      #image-display {
+        width: 150px;
+        height: 150px;
+      }
+    }
+  </style>
+  </head>
+  <body>
+    <div id="game-container">
+      <h1>آموزش الفبا برای اطفال</h1>
+      <select id="theme-selector" onchange="changeTheme()">
+        <option value="default">تم پیش‌فرض</option>
+        <option value="warm">تم گرم</option>
+        <option value="cool">تم سرد</option>
+        <option value="pastel">تم ملایم</option>
+      </select>
+      <div id="alphabet-display"></div>
+      <div id="word-display"></div>
+      <div id="image-display"></div>
+      <div class="button-container">
+        <button class="button" onclick="previousLetter()">حرف قبلی</button>
+        <button class="button" onclick="nextLetter()">حرف بعدی</button>
+      </div>
+      <div id="progress-bar">
+        <div id="progress"></div>
+      </div>
+    </div>
+  
+    <script>
+      const alphabetArabic = ['ا', 'ب', 'پ', 'ت', 'ث', 'ج', 'چ', 'ح', 'خ', 'د', 'ذ', 'ر', 'ز', 'ژ', 'س', 'ش', 'ص', 'ض', 'ط', 'ظ', 'ع', 'غ', 'ف', 'ق', 'ک', 'گ', 'ل', 'م', 'ن', 'و', 'ه', 'ی'];
+      const words = {
+        'ا': ['آب', 'انار', 'انگور', 'آهو', 'اسب', 'آتش', 'آسمان', 'استاد', 'افغانستان', 'امید'],
+        'ب': ['بابا', 'برف', 'بهار', 'باغ', 'بادام', 'بامیان', 'برادر', 'بازار', 'بلخ', 'بلبل'],
+        'پ': ['پدر', 'پروانه', 'پسته', 'پنجشیر', 'پنجره', 'پیراهن', 'پلنگ', 'پیاله', 'پشم', 'پیاز'],
+        'ت': ['توت', 'تاک', 'تخم', 'ترانه', 'تاجیک', 'تخار', 'تندر', 'تاریخ', 'تشناب', 'تربوز'],
+        'ث': ['ثریا', 'ثروت', 'ثمر', 'ثانیه', 'ثبات', 'ثواب', 'ثلث', 'ثقل', 'ثنا', 'ثبت'],
+        'ج': ['جان', 'جوزا', 'جنگل', 'جاده', 'جوانی', 'جوراب', 'جشن', 'جگر', 'جلال‌آباد', 'جمهوری'],
+        'چ': ['چشم', 'چمن', 'چنار', 'چوب', 'چراغ', 'چای', 'چکش', 'چوپان', 'چاه', 'چادر'],
+        'ح': ['حوت', 'حمل', 'حیوان', 'حکیم', 'حافظ', 'حج', 'حوض', 'حلیم', 'حلوا', 'حویلی'],
+        'خ': ['خانه', 'خورشید', 'خربوزه', 'خواهر', 'خیابان', 'خاک', 'خرما', 'خوشه', 'خزان', 'خیال'],
+        'د': ['دل', 'درخت', 'دریا', 'دوست', 'دانش', 'دست', 'دهقان', 'دشت', 'دره', 'دوغ'],
+        'ذ': ['ذره', 'ذخیره', 'ذهن', 'ذکر', 'ذات', 'ذوق', 'ذلت', 'ذبح', 'ذرت', 'ذغال'],
+        'ر': ['روز', 'رود', 'رنگ', 'روباه', 'راه', 'رمضان', 'رحمت', 'روشنی', 'رسم', 'ریش'],
+        'ز': ['زمین', 'زندگی', 'زبان', 'زمستان', 'زنبور', 'زیبا', 'زعفران', 'زرد', 'زور', 'زن'],
+        'ژ': ['ژاله', 'ژرف', 'ژنده', 'ژست', 'ژاکت', 'ژله', 'ژیان', 'ژاپن', 'ژرفا', 'ژنرال'],
+        'س': ['سیب', 'ستاره', 'سنگ', 'سبزه', 'سرود', 'سفر', 'سمنگان', 'سرک', 'سرما', 'سایه'],
+        'ش': ['شب', 'شیر', 'شاعر', 'شهر', 'شمال', 'شانه', 'شکر', 'شفتالو', 'شتر', 'شمع'],
+        'ص': ['صبح', 'صلح', 'صدا', 'صابون', 'صنف', 'صندلی', 'صفحه', 'صحرا', 'صبر', 'صنعت'],
+        'ض': ['ضرب', 'ضعیف', 'ضرورت', 'ضمیر', 'ضیا', 'ضامن', 'ضربه', 'ضلع', 'ضیافت', 'ضبط'],
+        'ط': ['طوطی', 'طبیب', 'طلا', 'طالب', 'طفل', 'طاووس', 'طوفان', 'طلوع', 'طناب', 'طبیعت'],
+        'ظ': ['ظرف', 'ظهر', 'ظلم', 'ظاهر', 'ظریف', 'ظفر', 'ظن', 'ظرافت', 'ظالم', 'ظلمت'],
+        'ع': ['عید', 'عقاب', 'عسل', 'عدالت', 'عشق', 'علم', 'عقل', 'عطر', 'عینک', 'عروس'],
+        'غ': ['غزل', 'غذا', 'غروب', 'غم', 'غزنی', 'غوری', 'غنچه', 'غار', 'غریب', 'غزال'],
+        'ف': ['فیل', 'فرشته', 'فردا', 'فصل', 'فراه', 'فامیل', 'فرهنگ', 'فکر', 'فلم', 'فضا'],
+        'ق': ['قلم', 'قلب', 'قند', 'قصه', 'قندهار', 'قهرمان', 'قاضی', 'قریه', 'قرآن', 'قفس'],
+        'ک': ['کتاب', 'کابل', 'کوه', 'کبوتر', 'کندز', 'کاغذ', 'کفش', 'کلید', 'کارگر', 'کشور'],
+        'گ': ['گل', 'گندم', 'گوسفند', 'گرگ', 'گیلاس', 'گردو', 'گوش', 'گرما', 'گاو', 'گنجشک'],
+        'ل': ['لاله', 'لبخند', 'لغمان', 'لوگر', 'لیمو', 'لباس', 'لحظه', 'لانه', 'لذت', 'لطیف'],
+        'م': ['مادر', 'ماه', 'مکتب', 'مزار', 'مهتاب', 'مرغ', 'موتر', 'مهربان', 'مسجد', 'میوه'],
+        'ن': ['نان', 'نور', 'نوروز', 'ننگرهار', 'نیمروز', 'نقاش', 'نمک', 'نهال', 'نعنا', 'نماز'],
+        'و': ['وطن', 'ورزش', 'وحدت', 'ولایت', 'وفا', 'وردک', 'وزیر', 'وقت', 'وجدان', 'ویولن'],
+        'ه': ['هرات', 'هلمند', 'هندوانه', 'هوا', 'همدلی', 'هدیه', 'هنر', 'هفته', 'هما', 'هویت'],
+        'ی': ['یار', 'یاقوت', 'یخ', 'یلدا', 'یاس', 'یک', 'یادگار', 'یونس', 'یوسف', 'یکتا']
+      };
+  
+      let currentIndex = 0;
+      let currentWordIndex = 0;
+  
+      function updateDisplay() {
+        const currentLetter = alphabetArabic[currentIndex];
+        const currentWords = words[currentLetter];
+        currentWordIndex = Math.floor(Math.random() * currentWords.length);
+        const currentWord = currentWords[currentWordIndex];
+  
+        document.getElementById('alphabet-display').textContent = currentLetter;
+        document.getElementById('word-display').textContent = currentWord;
+        document.getElementById('image-display').style.backgroundImage = `url('https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${currentWord.codePointAt(0).toString(16)}.svg')`;
+        document.getElementById('progress').style.width = `${((currentIndex + 1) / alphabetArabic.length) * 100}%`;
+      }
+  
+      function nextLetter() {
+        currentIndex = (currentIndex + 1) % alphabetArabic.length;
+        updateDisplay();
+      }
+  
+      function previousLetter() {
+        currentIndex = (currentIndex - 1 + alphabetArabic.length) % alphabetArabic.length;
+        updateDisplay();
+      }
+  
+      function changeTheme() {
+        const theme = document.getElementById('theme-selector').value;
+        const root = document.documentElement;
+  
+        switch (theme) {
+          case 'warm':
+            root.style.setProperty('--primary-color', '#FF5722');
+            root.style.setProperty('--secondary-color', '#FF9800');
+            root.style.setProperty('--accent-color', '#FFC107');
+            root.style.setProperty('--text-color', '#3E2723');
+            root.style.setProperty('--background-color', '#FFF3E0');
+            break;
+          case 'cool':
+            root.style.setProperty('--primary-color', '#3F51B5');
+            root.style.setProperty('--secondary-color', '#2196F3');
+            root.style.setProperty('--accent-color', '#03A9F4');
+            root.style.setProperty('--text-color', '#263238');
+            root.style.setProperty('--background-color', '#E3F2FD');
+            break;
+          case 'pastel':
+            root.style.setProperty('--primary-color', '#FFB6C1');
+            root.style.setProperty('--secondary-color', '#98FB98');
+            root.style.setProperty('--accent-color', '#87CEFA');
+            root.style.setProperty('--text-color', '#696969');
+            root.style.setProperty('--background-color', '#FFF0F5');
+            break;
+          default:
+            root.style.setProperty('--primary-color', '#FF9800');
+            root.style.setProperty('--secondary-color', '#FFC107');
+            root.style.setProperty('--accent-color', '#4CAF50');
+            root.style.setProperty('--text-color', '#333');
+            root.style.setProperty('--background-color', '#FFF3E0');
+        }
+      }
+  
+      updateDisplay();
+    </script>
+  </body>
+  </html>
