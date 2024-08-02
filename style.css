@@ -1,0 +1,160 @@
+@font-face {
+      font-family: 'Vazir';
+      src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/Vazir-Regular.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+  
+
+    :root {
+      --primary-color: #FF9800;
+      --secondary-color: #FFC107;
+      --accent-color: #4CAF50;
+      --text-color: #333;
+      --background-color: #FFF3E0;
+    }
+  
+    body {
+      font-family: 'Vazir', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      direction: rtl;
+    }
+  
+    #game-container {
+      width: 90%;
+      max-width: 800px;
+      background-color: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    h1 {
+      font-size: 2.5em;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+  
+    #theme-selector {
+      margin-bottom: 20px;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 2px solid var(--primary-color);
+      background-color: white;
+      color: var(--text-color);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+  
+    #theme-selector:hover {
+      background-color: var(--primary-color);
+      color: white;
+    }
+  
+    #alphabet-display {
+      font-size: 8em;
+      color: var(--primary-color);
+      margin: 20px 0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  
+    #word-display {
+      font-size: 2em;
+      color: var(--text-color);
+      margin: 10px 0;
+    }
+  
+    #image-display {
+      width: 200px;
+      height: 200px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      margin: 20px 0;
+      transition: transform 0.3s ease;
+    }
+  
+    #image-display:hover {
+      transform: scale(1.1);
+    }
+  
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+  
+    .button {
+      background-color: var(--accent-color);
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 10px;
+      cursor: pointer;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+  
+    .button:hover {
+      background-color: #45a049;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+  
+    #progress-bar {
+      width: 80%;
+      height: 20px;
+      background-color: #f0f0f0;
+      border-radius: 10px;
+      margin-top: 20px;
+      overflow: hidden;
+    }
+  
+    #progress {
+      width: 0;
+      height: 100%;
+      background-color: var(--secondary-color);
+      transition: width 0.5s ease;
+    }
+  
+    @media (max-width: 600px) {
+      #game-container {
+        width: 95%;
+        padding: 10px;
+      }
+  
+      h1 {
+        font-size: 2em;
+      }
+  
+      #alphabet-display {
+        font-size: 6em;
+      }
+  
+      #word-display {
+        font-size: 1.5em;
+      }
+  
+      #image-display {
+        width: 150px;
+        height: 150px;
+      }
+    }
