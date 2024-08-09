@@ -91,6 +91,7 @@ const alphabetArabic = ['ا', 'ب', 'پ', 'ت', 'ث', 'ج', 'چ', 'ح', 'خ', '�
             root.style.setProperty('--accent-color', '#4CAF50');
             root.style.setProperty('--text-color', '#333');
             root.style.setProperty('--background-color', '#FFF3E0');
+                    
         }
       }
   
